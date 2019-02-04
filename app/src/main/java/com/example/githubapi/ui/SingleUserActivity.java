@@ -18,10 +18,10 @@ import retrofit2.Response;
 
 public class SingleUserActivity extends AppCompatActivity {
 
-    public static final String KEY_USER_NAME = "key_user_name";
+    public static final String KEY_USER_NAME = "key_user_name";//էս էն քին  ա որով պիտի պահենք կամ վերցնենք MainActivity-ից եկող յուզրի նեյմը
 
 
-    private ImageView mAvatarIv;
+    private ImageView mAvatarIv;//յուզրի նկարը կցուցադրենք էս ImageView -ում
     private TextView mTypeTxt;
     private TextView mNameTxt;
     private TextView mLocationTxt;
@@ -47,15 +47,15 @@ public class SingleUserActivity extends AppCompatActivity {
     }
 
     private void loadData(String userName) {
-        if (NetworkUtils.isNetworkAvailable(this)) {
-            Call<SingleUser> call = ApiManager.getApiClient().getSingleUser(userName);
+        if (NetworkUtils.isNetworkAvailable(this)) {//եթե ինտերնետը հասանելի է
+            Call<SingleUser> call = ApiManager.getApiClient().getSingleUser(userName);////մեր GitHubService-ից ուզենք userName-ով յուզրի տվյալները
             call.enqueue(new Callback<SingleUser>() {
                 @Override
                 public void onResponse(Call<SingleUser> call, Response<SingleUser> response) {
                     Log.v("TAG", "Success");
-                    SingleUser user = response.body();
+                    SingleUser user = response.body();//եկած պատասխանից վերցնենք մեր user-ին ։դ
                     if (user != null) {
-                        fillData(user);
+                        fillData(user);//լրացնենք յուզրին ներկայացնող դաշտերը
                     }
                 }
 
@@ -71,8 +71,8 @@ public class SingleUserActivity extends AppCompatActivity {
 
     private void fillData(SingleUser user) {
         Glide.with(this)
-                .load(user.getAvatarUrl())
-                .into(mAvatarIv);
+                .load(user.getAvatarUrl())//Glide-ին տանք մեր յուզրի նկարի URL-ն
+                .into(mAvatarIv);//ու ասենք որ պատկերի նկարը mAvatarIv-ում
 
         mTypeTxt.setText("Type : " + user.getType());
         mNameTxt.setText("Name : " + user.getName());

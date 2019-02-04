@@ -11,6 +11,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface GitHubService {
+
     @GET("users")
     Call<List<ListUser>> getUsers(@Query("since") int offset, @Query("per_page") int limit);
 

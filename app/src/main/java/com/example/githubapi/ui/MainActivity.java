@@ -23,9 +23,9 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements UsersRecyclerAdapter.OnRvItemClickListener {
 
-    private static final int LIMIT = 10;
-    private UsersRecyclerAdapter mRecyclerAdapter;
-    private ArrayList<ListUser> mUsers;
+    private static final int LIMIT = 10;//ցույց ենք տալիս թե մաքսիմում քանի այթմ ենք ներբեռնելու ամեն այթմից
+    private UsersRecyclerAdapter mRecyclerAdapter;//մեր յուզրների լիստի ադապտերն ա
+    private ArrayList<ListUser> mUsers;//mUsers-ում հավաքելու ենք բոլոր յուզրներին
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,36 +33,36 @@ public class MainActivity extends AppCompatActivity implements UsersRecyclerAdap
         setContentView(R.layout.activity_main);
         mUsers = new ArrayList<>();
         initRecyclerView();
-        loadDataFromApi(0);
+        loadDataFromApi(0);//ամենասկզբից ներբեռնենք 0-րդ էջի յուզրներին
     }
 
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.rv_github_users);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        CustomScrollListener scrollListener = new CustomScrollListener(layoutManager) {
+        CustomScrollListener scrollListener = new CustomScrollListener(layoutManager) {//մեր հատուկ ScrollListener-ն ա որը օգնելու ա pagination-ի հարցում
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                loadDataFromApi(totalItemsCount);
+                loadDataFromApi(totalItemsCount);//ամեն անգամ երբ լիսթը հասնում ա վերջնակետին կանչվում  ա էս մեթոդը totalItemsCount ցույց ա տալիս թե էտ պահին քանի այթմ կա լիսթում
             }
         };
 
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addOnScrollListener(scrollListener);
+        recyclerView.addOnScrollListener(scrollListener);//մեր recyclerView-ին ասենք որ աշխատի մեր scrollListener-ի հետ ։դ
         mRecyclerAdapter = new UsersRecyclerAdapter(mUsers, this);
         recyclerView.setAdapter(mRecyclerAdapter);
     }
 
     private void loadDataFromApi(int page) {
-        if (NetworkUtils.isNetworkAvailable(this)) {
-            Call<List<ListUser>> call = ApiManager.getApiClient().getUsers(page, LIMIT);
+        if (NetworkUtils.isNetworkAvailable(this)) {//եթե ինտերնետը հասանելի է
+            Call<List<ListUser>> call = ApiManager.getApiClient().getUsers(page, LIMIT);//մեր GitHubService-ից ուզենք յուզրների լիսթը page-ից սկսած 10 հատ
             call.enqueue(new Callback<List<ListUser>>() {
                 @Override
                 public void onResponse(Call<List<ListUser>> call, Response<List<ListUser>> response) {
                     Log.v("TAG", "Success");
-                    List<ListUser> users = response.body();
+                    List<ListUser> users = response.body();//եկած պատասխանից վերցնենք յուզրների լիսթը
                     if (users != null) {
-                        mUsers.addAll(users);
-                        mRecyclerAdapter.notifyDataSetChanged();
+                        mUsers.addAll(users);//նոր ստացված յուզրները ավելացնենք մեր լիսթում
+                        mRecyclerAdapter.notifyDataSetChanged();//թարմացնենք յուզրների ցուցադրվող լիսթը
                     }
                 }
 
@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity implements UsersRecyclerAdap
     }
 
     @Override
-    public void onItemClicked(int pos) {
-        Intent i = new Intent(MainActivity.this, SingleUserActivity.class);
-        i.putExtra(SingleUserActivity.KEY_USER_NAME, mUsers.get(pos).getLogin());
-        startActivity(i);
+    public void onItemClicked(int pos) {//եթե կլիկ ա արված ինչ որ այթմի վրա
+        Intent i = new Intent(MainActivity.this, SingleUserActivity.class);//ստեղծենք SingleUserActivity-ին տանող ինթենթ
+        i.putExtra(SingleUserActivity.KEY_USER_NAME, mUsers.get(pos).getLogin());//ինթենթին փոխանցենք ընտրված յուզրի անունը
+        startActivity(i);//
     }
 }

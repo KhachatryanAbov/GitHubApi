@@ -2,7 +2,7 @@ package com.example.githubapi.model;
 
 public class ListUser {
     private String login;
-    private String avatar_url;
+    private String avatar_url;//քանի որ չենք օգտագործել SerializedName, պարտավոր ենք լրացնել էնպես ինչպես նշված է GitHub-ի API-ում
 
     public ListUser() {
     }

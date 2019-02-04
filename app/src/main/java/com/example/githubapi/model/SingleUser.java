@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class SingleUser {
 
-    @SerializedName("avatar_url")
+    @SerializedName("avatar_url")//SerializedName-wum պարտավոր ենք լրացնել դաշտի անունը այնպես ինչպես նշված է GitHub-ի API-ում
     @Expose
-    public String avatarUrl;
+    public String avatarUrl;//էս դաշտը արդեն կարող ենք լրացնել այնպես ինչպես ընդունված է Java լեզվում
     @SerializedName("type")
     @Expose
     public String type;
